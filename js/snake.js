@@ -24,25 +24,25 @@ export default class Snake{
     keydown(event) {
         console.log(event);
         
-        switch(event.keycode) {
+        switch(event.keyCode) {
             case 37: //left
                 this.direction = Phaser.Math.Vector2.LEFT;
                 break;
             case 38: //UP
                     this.direction = Phaser.Math.Vector2.UP;
                     break;
-            case 37: //RIGHT
+            case 39: //RIGHT
                 this.direction = Phaser.Math.Vector2.RIGHT;
                 break;
-            case 38: //DOWN
+            case 40: //DOWN
                 this.direction = Phaser.Math.Vector2.DOWN;
                 break;
         }
     }
 
     update(time) {
-        this.body[0].x += this.direction.x;
-        this.body[0].y += this.direction.y;
+        this.body[0].x += this.direction.x * 16; 
+        this.body[0].y += this.direction.y * 16;
     }
 }
 
