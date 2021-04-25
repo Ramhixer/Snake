@@ -3,11 +3,17 @@ export default class Snake{
         this.scene = scene;
         this.timeLastMove = 0;
         this.moveInterval = 250;
+        this.timeReduction = 10; //Quanto reduz o tempo
 
         this.tileSize = 16;
 
+        this.backGround = [];
         this.direction = Phaser.Math.Vector2.RIGHT;
         this.body = [];
+
+        this.backGround.push(
+            this.scene.add.rectangle(0, 0, this.tileSize, this.tileSize, 0x0000ff).setOrigin(0)
+        );
 
         this.body.push(
             this.scene.add
@@ -25,12 +31,13 @@ export default class Snake{
         })
     }
 
-    placeApple() {
-        if(this.apple == this.body){
-            this.placeApple();
+    placeApple() {//Se a maca fizer spawn em cima da cauda, vai voltar a calcular uma nova posicao
+        if(this.apple == this.body){ 
+            this.apple.x = Math.floor( Math.random() * this.scene.game.config.width / this.tileSize) * this.tileSize;
+            this.apple.y = Math.floor( Math.random() * this.scene.game.config.height / this.tileSize) * this.tileSize;
         } else{
             this.apple.x = Math.floor( Math.random() * this.scene.game.config.width / this.tileSize) * this.tileSize;
-        this.apple.y = Math.floor( Math.random() * this.scene.game.config.height / this.tileSize) * this.tileSize;
+            this.apple.y = Math.floor( Math.random() * this.scene.game.config.height / this.tileSize) * this.tileSize;
         }
         
     }
@@ -77,6 +84,7 @@ export default class Snake{
             this.placeApple();
             this.body.push(
                 this.scene.add.rectangle(0, 0, this.tileSize, this.tileSize, 0xffffff).setOrigin(0));
+            this.moveInterval = this.moveInterval - this.timeReduction; //Reduz o tempo sempre que come
         }
 
     }
